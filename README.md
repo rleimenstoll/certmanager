@@ -13,4 +13,4 @@ docker-compose up -d
 ```
 
 This will spin up a container listening on port 8080 with an unpopulated but
-prepared SQLite database.
+prepared SQLite database. The application will launch and bind to localhost:8080.

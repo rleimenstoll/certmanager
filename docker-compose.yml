@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+    volumes:
+        - .:/var/www/webapps/certmanager
+    command: ["python /var/www/webapps/certmanager/manage.py runserver 0.0.0.0:8080"]
+    ports:
+      - 8080:8080
+    environment:
+      - Certmanager__SECRET_KEY=${Certmanager_SECRET_KEY}
+     #  ['python', '/var/www/webapps/certmanager/manage.py',
+     # 'migrate && python manage.py runserver 0.0.0.0:8080'

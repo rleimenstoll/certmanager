@@ -15,7 +15,7 @@ class CertificateAssociation(models.Model):
     last_seen = models.DateTimeField()
 
     def __unicode__(self):
-        u'Endpoint %s, Certificate %s' % (self.endpoint, self.certificate)
+        return u'Endpoint %s, Certificate %s' % (self.endpoint, self.certificate)
 
 
 class Endpoint(models.Model):
@@ -27,12 +27,11 @@ class Endpoint(models.Model):
 
     certificates = models.ManyToManyField('Certificate', through=CertificateAssociation)
 
-
     class Meta:
         unique_together = ('host', 'port',)
 
     def __unicode__(self):
-        return u'%s' % name
+        return u'%s' % self.name
 
 
 class Certificate(models.Model):
@@ -43,6 +42,9 @@ class Certificate(models.Model):
 
     not_before = models.DateTimeField()
     not_after = models.DateTimeField()
+
+    def __unicode__(self):
+        return u'%s' % self.pk
 
     @property
     def expired(self):

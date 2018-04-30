@@ -1,7 +1,9 @@
+from datetime import datetime
 import logging
 import ssl
 
 from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
 
 from .models import Endpoint, Certificate, CertificateAssociation
 
@@ -37,8 +39,7 @@ def poll(endpoint):
 
     # Fetch existing certificate (if there is one)
     existing = \
-        endpoint.certificate.order_by('certificate_association__last_seen')
-    update = False
+        endpoint.certificates.order_by('certificateassociation__last_seen')
     if existing.count() > 0:
         curr_cert = existing[0]
         # TODO: Refine comparison
@@ -46,8 +47,25 @@ def poll(endpoint):
             logger.info('No certificate change for endpoint %s.' % endpoint)
             return
         else:
-            update = True
             logger.info('Certificate has changed for endpoint %s.' % endpoint)
 
     # Attempt to parse certificate
-    cert = load_pem_x509_certificate(raw_cert)
+    cert = load_pem_x509_certificate(str(raw_cert), default_backend())
+
+    # Get desired aattributes
+    not_before = cert.not_valid_before
+    not_after = cert.not_valid_after
+
+    # Create new cert
+    cert_obj = \
+        Certificate(body=raw_cert, not_before=not_before, not_after=not_after)
+    cert_obj.save()
+
+    # Create new Cert/Endpoint Association
+    assoc_obj = \
+        CertificateAssociation(
+            endpoint=endpoint,
+            certificate=cert_obj,
+            last_seen=datetime.now())
+    assoc_obj.save()
+    logger.info('Created new cert/association %s' % assoc_obj)

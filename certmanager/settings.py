@@ -21,7 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['Certmanager__SECRET_KEY']
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -120,5 +119,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# if os.environ['Certmanager__IS_PRODUCTION']:
-#     pass
+environment = 'development'
+if 'Certmanager__ENVIRONMENT' in os.environ:
+    environment = os.environ['Certmanager__ENVIRONMENT']
+    env = __import__('certmanager.%s-settings' % environment)
+    for k, v in env.__dict__.iteritems():
+        locals()[k] = v

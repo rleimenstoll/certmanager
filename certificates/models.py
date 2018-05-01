@@ -15,7 +15,8 @@ class CertificateAssociation(models.Model):
     last_seen = models.DateTimeField()
 
     def __unicode__(self):
-        return u'Endpoint %s, Certificate %s' % (self.endpoint, self.certificate)
+        return u'Endpoint %s, Certificate %s' % (self.endpoint,
+                                                 self.certificate)
 
 
 class Endpoint(models.Model):
@@ -25,7 +26,8 @@ class Endpoint(models.Model):
     port = models.IntegerField(default=443)
     active = models.BooleanField(default=True)
 
-    certificates = models.ManyToManyField('Certificate', through=CertificateAssociation)
+    certificates = \
+        models.ManyToManyField('Certificate', through=CertificateAssociation)
 
     class Meta:
         unique_together = ('host', 'port',)

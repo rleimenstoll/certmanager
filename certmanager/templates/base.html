@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta name="description" content="X509 Certificate Tracking">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block bootstrap_override %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% endblock %}
+    {% block head %}
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'certmanager-index'}"><b>Cert</b>Manager</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#certmanagerNavContent" aria-controls="certmanagerNavContent" aria-expanded="false" aria-label="Toggle Navigation">
+          <span class="navbar-toggler-icon">
+        </button>
+        <div class="collapse navbar-collapse" id="certmanagerNavContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'certificates-index' %}">Certificates</a>
+            </li>
+          </ul>
+        {% if request.user.is_authenticated %}
+          Logged in as {{ request.user }}
+          <a class="btn btn-primary btn-sm" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+          <a class="btn btn-primary btn-sm" href="{% url 'login' %}">Login</a>
+        {% endif %}
+        </div>
+      </nav>
+    </div>
+    <div class="container">
+      {% block messages %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissable">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+      {% endblock %}
+      {% block body%} {% endblock %}
+    </div>
+  </body>
+</html>

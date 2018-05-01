@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
     'certificates'
 ]
 
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'certmanager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'certmanager', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

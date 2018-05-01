@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} Certificates {% endblock %}
+
+{% block body %}
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'certificates-index' %}">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Dashboard</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'certificates-index' %}" role="button" aria-haspopup="true" aria-expanded="false">Endpoint Management</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'certificates-endpoints' %}">List Endpoints</a>
+      <a class="dropdown-item" href="{% url 'certificates-create_endpoint' %}">Create Endpoint</a>
+      <a class="dropdown-item" href="{% url 'certificates-scan' %}">Schedule Scan</a>
+    </div>
+  </li>
+</ul>
+{% block content %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "certificates/certificates_base.html" %}
+
+{% block content %}
+<div class="row mt-4">
+  <div class="col-md-12">
+    <h4>Dashboards</h4>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-tite">Expiring Soon</h5>
+            <p class="card-text">List all endpoints that have certificates expiring soon.</p>
+            <a class="btn btn-primary" href="#">Expiring Soon</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-12">
+    <h4>Endpoint Management</h4>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-tite">Create an endpoint</h5>
+            <p class="card-text">Create a new endpoint to track certificates on.</p>
+            <a class="btn btn-primary" href="{% url 'certificates-create_endpoint' %}">Create Endpoint</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-tite">List endpoints</h5>
+            <p class="card-text">List the tracked endpoints.</p>
+            <a class="btn btn-primary" href="{% url 'certificates-endpoints' %}">List Endpoints</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-tite">Trigger Scan</h5>
+            <p class="card-text">Trigger a manual scan of a given endpoint.</p>
+            <a class="btn btn-primary" href="{% url 'certificates-scan' %}">Start Scan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

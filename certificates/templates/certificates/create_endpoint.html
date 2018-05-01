@@ -1,0 +1,26 @@
+{% extends "certificates/certificates_base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Create Endpoint{% endblock %}
+{% block content %}
+<h3>Create a new Endpoint</h3>
+<form method="POST" action="{% url 'certificates-create_endpoint' %}">
+  {% csrf_token %}
+  <div class="col-md-6">
+    <div class="form-row">
+      <div class="col-md-12">
+      {% bootstrap_field endpoint_form.name %}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-8">
+        {% bootstrap_field endpoint_form.host%}
+      </div>
+      <div class="col-md-4">
+        {% bootstrap_field endpoint_form.port %}
+      </div>
+    </div>
+    <input type="submit" class="btn btn-primary">
+  </div>
+</form>
+{% endblock %}

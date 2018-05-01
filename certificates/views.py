@@ -6,14 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
 
-from .forms import EndpointForm
+from .forms import EndpointForm, EndpointSelectForm
 from .models import Endpoint, Certificate, CertificateAssociation
+from .tasks import trigger_poll
 
 
 @login_required
 def endpoints(request):
     ctx = {}
-    ctx['certificates'] = Certificate.objects.all()
+    ctx['endpoints'] = Endpoint.objects.all()
     return render(request, 'certificates/endpoints.html', ctx)
 
 
@@ -47,24 +48,23 @@ def endpoint(request, pk):
 
 
 @login_required
-def scan(request):
+def expiring_soon(request):
     pass
 
 
 @login_required
-def expiring_soon(request):
-    pass
-# def scan(request):
-#     ctx = {}
-#     if request.method == 'POST':
-#         endpoint_form = EndpointSelectForm(request.POST)
-#         if endpoint_form.is_valid():
-#             # Do something here
-#             endpoint = endpoint_form.endpoint
-#             messages.success(request, 'Created endpoint %s' % endpoint)
-#             return redirect('certificates-create_endpoint')
-#     else:
-#         endpoint_form = EndpointSelectForm()
-    #
-    # ctx['endpoint_form'] = endpoint_form
-    # return render(request, 'certificates/create_endpoint.html', ctx)
+def scan(request):
+    ctx = {}
+    if request.method == 'POST':
+        endpoint_form = EndpointSelectForm(request.POST)
+        if endpoint_form.is_valid():
+            # Do something here
+            endpoint = endpoint_form.cleaned_data['endpoint']
+            trigger_poll.delay(pk=endpoint.pk)
+            messages.info(request, 'Scan for %s started.' % endpoint)
+            return redirect('certificates-scan')
+    else:
+        endpoint_form = EndpointSelectForm()
+
+    ctx['endpoint_form'] = endpoint_form
+    return render(request, 'certificates/trigger_scan.html', ctx)

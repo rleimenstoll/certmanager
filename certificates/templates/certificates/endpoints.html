@@ -5,4 +5,24 @@
 {% block content %}
 <h3>List Endpoints</h3>
 
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Host:Port</th>
+      <th>Fingerprint</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for endpoint in endpoints %}
+    <tr>
+      <td><a href="{% url 'certificates-endpoint' pk=endpoint.pk %}">{{endpoint.id}}</a></td>
+      <td>{{endpoint.name}}</td>
+      <td>{{endpoint.host}}:{{endpoint.port}}</td>
+      <td>{{endpoint.fingerprint}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

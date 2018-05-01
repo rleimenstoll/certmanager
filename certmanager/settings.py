@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+import importlib
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -119,10 +119,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+# CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672/'
 
 environment = 'development'
 if 'Certmanager__ENVIRONMENT' in os.environ:
     environment = os.environ['Certmanager__ENVIRONMENT']
-    env = __import__('certmanager.%s-settings' % environment)
+    env = importlib.import_module('certmanager.%s-settings' % environment)
     for k, v in env.__dict__.iteritems():
-        locals()[k] = v
+        if k == k.upper():
+            locals()[k] = v

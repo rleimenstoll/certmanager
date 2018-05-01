@@ -1,0 +1,17 @@
+{% extends "certificates/certificates_base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Endpoint Scan{% endblock %}
+
+{% block content %}
+<h3>Scan Endpoint</h3>
+<form method="POST" action="{% url 'certificates-scan' %}">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-4">
+        {% bootstrap_field endpoint_form.endpoint %}
+      <input type="submit" class="btn btn-primary">
+    </div>
+  <div>
+</form>
+{% endblock %}

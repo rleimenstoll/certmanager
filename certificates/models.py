@@ -2,6 +2,13 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
+import hashlib
+import re
+
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.serialization import Encoding
+
 
 from django.db import models
 
@@ -29,11 +36,25 @@ class Endpoint(models.Model):
     certificates = \
         models.ManyToManyField('Certificate', through=CertificateAssociation)
 
+    date_added = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         unique_together = ('host', 'port',)
 
     def __unicode__(self):
         return u'%s' % self.name
+
+    @property
+    def fingerprint(self):
+        if self.certificate:
+            return self.certificate.fingerprint
+
+    @property
+    def certificate(self):
+        existing = \
+            self.certificates.order_by('certificateassociation__last_seen')
+        if existing.count() > 0:
+            return existing[0]
 
 
 class Certificate(models.Model):
@@ -51,3 +72,11 @@ class Certificate(models.Model):
     @property
     def expired(self):
         return datetime.now() > self.not_after
+
+    @property
+    def fingerprint(self):
+        # Attempt to parse certificate
+        # TODO: Cache me!
+        cert = load_pem_x509_certificate(str(self.body), default_backend())
+        digest = hashlib.md5(cert.public_bytes(Encoding.DER)).hexdigest()
+        return ':'.join(re.findall('..', digest))

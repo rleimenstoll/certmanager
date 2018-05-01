@@ -4,5 +4,37 @@
 
 {% block content %}
 <h3>{{endpoint.name}}</h3>
-
+<div class="row">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-body">
+        <h5>Endpoint</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Name:</strong> {{endpoint.name}}</li>
+          <li class="list-group-item"><strong>Host:</strong> {{endpoint.host}}</li>
+          <li class="list-group-item"><strong>Port:</strong> {{endpoint.port}}</li>
+          <li class="list-group-item"><strong>Date Added:</strong> {{endpoint.date_added}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card mt-4">
+      <div class="card-body">
+        <h5>Certificate</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Not Before:</strong> {{endpoint.certificate.not_before}}</li>
+          <li class="list-group-item"><strong>Not After:</strong> {{endpoint.certificate.not_after}}</li>
+          <li class="list-group-item"><strong>Date Added:</strong> {{endpoint.certificate.date_added}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-body">
+        <h5>PEM</h5>
+        <pre>{{endpoint.certificate.body}}</pre>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

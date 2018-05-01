@@ -6,10 +6,25 @@ services:
       context: .
     volumes:
         - .:/var/www/webapps/certmanager
-        - /srv/db
+        - ./docker/db:/srv/db
     command: ["python /var/www/webapps/certmanager/manage.py runserver 0.0.0.0:8080"]
     ports:
       - 8080:8080
     environment:
       - Certmanager__SECRET_KEY=${Certmanager__SECRET_KEY}
       - Certmanager__ENVIRONMENT=development
+  taskqueue:
+    build:
+      context: .
+    volumes:
+        - .:/var/www/webapps/certmanager
+        - ./docker/db:/srv/db
+    command: ["cd /var/www/webapps/certmanager && celery -A certmanager worker -l info"]
+    environment:
+      - Certmanager__SECRET_KEY=${Certmanager__SECRET_KEY}
+      - Certmanager__ENVIRONMENT=development
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672

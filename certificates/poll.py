@@ -21,7 +21,7 @@ def poll(endpoint):
     """
 
     try:
-        endpoint = Endpoint.objects.get(id=endpoint)
+        endpoint = Endpoint.objects.get(pk=endpoint)
     except Endpoint.DoesNotExist:
         logger.error('Endpoint with ID: %s does not exist.' % endpoint)
         # TODO: Propogate errors somewhere, better.

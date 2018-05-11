@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -48,8 +49,11 @@ def endpoint(request, pk):
 
 
 @login_required
-def expiring_soon(request):
-    pass
+def dashboard(request):
+    ctx = {}
+    expired = Certificate.objects.filter(not_after__lt=datetime.now())
+    delta = datetime.now() - timedelta(days=30)
+    expiring = Certificate.objects.filter(not_after__lt=datetime.now() + delta)
 
 
 @login_required

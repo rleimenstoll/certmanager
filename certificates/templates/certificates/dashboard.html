@@ -1,0 +1,37 @@
+{% extends "certificates/certificates_base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h3>Dashboard</h3>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card border-danger">
+      <div class="card-body">
+        <h5>Expired</h5>
+          {% if expired %}
+          <table class="table">
+            <thead>
+              <tr>
+                <td>Endpoint</td>
+                <td>Host:Port</td>
+                <td>Fingerrint</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for endpoint in expired %}
+              <tr>
+                <td>{{endpoint.name}}</td>
+                <td>{{endpoint.host}}:{{endpoint.port}}</td>
+                <td>{{endpoint.fingerprint}}</td>
+              </td>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          No expired endpoints!
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-"

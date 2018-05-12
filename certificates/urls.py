@@ -16,6 +16,6 @@ urlpatterns = [
     url(r'^endpoints/scan/$', views.scan, name='certificates-scan'),
 
     # Dashboards
-    url(r'^dashboard/expiring_soon/$', views.dashboard,
+    url(r'^dashboard/expiring/$', views.expiring_soon,
         name='certificates-expiring'),
 ]

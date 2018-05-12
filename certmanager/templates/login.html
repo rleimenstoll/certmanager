@@ -1,10 +1,24 @@
-{% extends base.html %}
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
 
 {% block title %} CertManager - Login{% endblock %}
-{% block content %}
-<div class="row align-items-center">
-  <div class="col-md-4 justify-content-center">
+{% block body %}
+<div class="row align-items-center mt-5">
+  <div class="col-md-4 offset-md-4">
     <div class="card">
+      <div class="card-body">
+        <h5 class="card-tite">Login</h5>
+        {% bootstrap_form_errors form %}
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          {% bootstrap_field form.username%}
+          {% bootstrap_field form.password%}
+          <input type="hidden" name="next" value="{{ next }}" />
+          <input class="btn btn-primary" type="submit" value="Login"/>
+        </form>
+      </div>
     </div>
   </div>
 </div>
+{% endblock %}

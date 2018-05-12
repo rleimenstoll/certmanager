@@ -49,11 +49,15 @@ def endpoint(request, pk):
 
 
 @login_required
-def dashboard(request):
+def expiring_soon(request):
     ctx = {}
     expired = Certificate.objects.filter(not_after__lt=datetime.now())
-    delta = datetime.now() - timedelta(days=30)
-    expiring = Certificate.objects.filter(not_after__lt=datetime.now() + delta)
+    delta = datetime.now() + timedelta(days=30)
+    expiring = \
+        Certificate.objects.filter(not_after__range=(datetime.now(), delta))
+    ctx['expiring'] = Endpoint.objects.filter(certificates__in=expiring)
+    ctx['expired'] = Endpoint.objects.filter(certificates__in=expired)
+    return render(request, 'certificates/dashboard.html', ctx)
 
 
 @login_required

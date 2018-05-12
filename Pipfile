@@ -8,7 +8,12 @@ name = "pypi"
 [packages]
 django = "==1.11.12"
 "django-bootstrap4" = "*"
-celery = "*"
+cryptography = "*"
+mysql-python = "*"
+ipaddress = "==1.0.16"
+"boto3" = "*"
+pycurl = "*"
+celery = {extras = ["sqs"]}
 
 [requires]
 python_version = "2.7"

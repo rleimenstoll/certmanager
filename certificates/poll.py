@@ -29,7 +29,7 @@ def poll(endpoint):
 
     # Attempt to fetch certificate
     try:
-        raw_cert = ssl.get_server_certificate((endpoint.host, endpoint.port))
+        raw_cert = ssl.get_server_certificate((endpoint.host, endpoint.port), ssl_version=ssl.PROTOCOL_SSLv23)
         logger.debug('Fetched certificate from %s:%s: %s'
                      % (endpoint.host, endpoint.port, raw_cert))
     except Exception as e:  # TODO: More selectively catch exceptions

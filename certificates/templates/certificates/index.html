@@ -4,14 +4,12 @@
 <div class="row mt-4">
   <div class="col-md-12">
     <h4>Dashboards</h4>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-tite">Expiring Soon</h5>
-            <p class="card-text">List all endpoints that have certificates expiring soon.</p>
-            <a class="btn btn-primary" href="#">Expiring Soon</a>
-          </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-tite">Expired & Expiring</h5>
+          <p class="card-text">List all endpoints that have expired or expiring certificates.</p>
+          <a class="btn btn-primary" href="{% url 'certificates-expiring' %}">Expired & Expiring</a>
         </div>
       </div>
     </div>

@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
+    url(r'^accounts/login/$',
+        auth_views.LoginView.as_view(template_name='login.html')),
+    url(r'^accounts/logout/$',
+        auth_views.LogoutView.as_view(template_name='logout.html')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^certificates/', include('certificates.urls')),
     url(r'^certificates/', include('certificates.urls')),
 ]
